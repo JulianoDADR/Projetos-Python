@@ -13,7 +13,8 @@ print(data[0:16])
 
 # mensagens
 agencia = """
-A agencia deve conter extamente 5 dígitos!
+1 - Acessar conta
+2 - Registrar conta
 """
 
 comandos = """
@@ -30,10 +31,32 @@ Seu saque precisa ser maior que 0."""
 msg_deposito = """
 Seu deposito precisa ser maior que 0."""
 
-print(agencia)
-time.sleep(1)
-conta = input("Digite a agencia da sua conta: ")
-time.sleep(1)
+
+class Interface():
+    def __init__ (self, nome_titular, cpf, agencia, data_nasc):
+        nome_titular.self = nome_titular
+        cpf.self = cpf
+        agencia.self = agencia
+        data_nasc.self = data_nasc
+
+def funcoes():
+    if len(extrato_da_conta) == 10:
+            print("Você excedeu o número de transações por acesso na conta.")
+            time.sleep(1)
+            
+
+    if len(agencia) == 5:
+        print(comandos)
+        comands = int(input())
+
+        if comands == 1:
+            saque(registro)
+
+        if comands == 2:
+            deposito(registro)
+
+        if comands == 3:
+            visualizar()
 
 def saque(registro):
     saque = int(input("Qual o valor do saque: "))
@@ -60,28 +83,32 @@ def deposito(registro):
     else:
         msg_deposito
 
+def registro_conta():
+    nome = input("Digite seu nome: ")
+    cpf = input("Digite seu cpf: ")
+    agencia = input("Digite sua agência com o máximo 5 dígitos: ")
+    nascimento = input("Digite sua data de nascimento somente: ")
+    agencia = Interface(nome, cpf, agencia, nascimento)
+
 def visualizar():
     print("O saldo da conta ficou ", registro)
     print("Ocorreram essas alterações no saque: ", extrato_de_saque )
     print("Ocorreram essas alterações no deposito: ", extrato_de_deposito )
 
+print(agencia)
+time.sleep(1)
+inicio = int(input(""))
+time.sleep(1)
+
 while comands != 4:
-    if len(extrato_da_conta) == 10:
-        print("Você excedeu o número de transações por acesso na conta.")
-        time.sleep(1)
-        break
+    
+    if inicio == 1:
+        agencia = input("Digite a sua agência: ")
+        funcoes()
 
-    if len(conta) == 5:
-        print(comandos)
-        comands = int(input())
 
-        if comands == 1:
-            saque(registro)
-
-        if comands == 2:
-            deposito(registro)
-
-        if comands == 3:
-            visualizar()
+    if inicio == 2:
+        registro_conta()
+        funcoes()
 
 print("O extrato da conta ficou ", registro)
