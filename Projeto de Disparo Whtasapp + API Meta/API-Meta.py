@@ -1,56 +1,63 @@
 import requests
 import json
 
-ACCESS_TOKEN = "Key"
+token = "E*************************************************************************ZD"
+arquivo = fr'jsons/teste.json'
 
-PHONE_NUMBER_ID = "101929325884906"
-API_URL = f"https://graph.facebook.com/v22.0/{PHONE_NUMBER_ID}/messages"
+# Pegar do json resultados_boletos as informações necessárias para disparar a mensagem
+def EnvioMensagem(token, arquivo):
+    def disparoTemplateBoleto(numero_cliente, aviso, download_url, linha_digitavel): #numero_cliente, #link_boleto, #linha digitavel
+      ACCESS_TOKEN = token
 
-payload = json.dumps({
-  "messaging_product": "whatsapp",
-  "to": "number",
-  "type": "template",
-  "template": {
-    "name": "hello_world",
-    "language": { "code": "en_US" }
-  }
-})
+      PHONE_NUMBER_ID = "*************21938"
+      API_URL = f"https://graph.facebook.com/v22.0/{PHONE_NUMBER_ID}/messages"
 
-headers = {
-  'Content-Type': 'application/json',
-  'Authorization': f'Bearer {ACCESS_TOKEN}'
-}
+      payload = json.dumps({
+        "messaging_product": "whatsapp",    
+        "recipient_type": "individual",
+        "to": numero_cliente,
+        "type": "template",
+        "template": {
+            "name":"teste_disparotsi",
+            "language":{
+                "code":"pt_BR" 
+            },
+            "components":[{
+                    "type":"body",
+                    "parameters":[
+                        {
+                            "type":"text",
+                            "text":aviso
+                        },
+                        {
+                            "type":"text",
+                            "text":download_url
+                        },                    
+                        {
+                            "type":"text",
+                            "text":linha_digitavel
+                        }
 
-response = requests.request("POST", API_URL, headers=headers, data=payload)
+                    ]
+                }
+            ]
+    }
+    })
 
-print(response.status_code)
-print(response.text)
+      headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {ACCESS_TOKEN}'
+      }
+
+      response = requests.request("POST", API_URL, headers=headers, data=payload)
+
+      print(response.status_code)
+      print(response.text)
 
 
+    with open(arquivo, 'r', encoding="utf-8") as arquivo:
+      resultados_boletos = json.load(arquivo)
 
-
-
-#def enviar_mensagem(numero_destino, mensagem):
-#    headers = {
-#        "Authorization": f"Bearer {ACCESS_TOKEN}",
-#        "Content-Type": "application/json"
-#    }
-#
-#    data = {
-#        "messaging_product": "whatsapp",
-#        "recipient_type": "individual",
-#        "to": numero_destino,
-#        "type": "text",
-#        "text": {
-#        "preview_url": 'false',
-#        "body": "text-message-content"
-#    }
-#    }
-#
-#    response = requests.post(API_URL, json=data, headers=headers)
-#    
-#    return response.json()
-#
-## Exemplo de uso
-#resposta = enviar_mensagem("5527998681077", "Oi Olá! Este é um teste de envio usando a API do WhatsApp da Met teste Olá! Este é um teste de envio usando a API do WhatsApp da Meta..")
-#print(resposta)
+    for i in resultados_boletos:
+      disparoTemplateBoleto(i['telefone'], i['aviso'], i['download_url'], i['linha_digitavel'])
+#EnvioMensagem(token, arquivo)
