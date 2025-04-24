@@ -54,10 +54,8 @@ def EnvioMensagem(token, arquivo):
       print(response.status_code)
       print(response.text)
 
-
     with open(arquivo, 'r', encoding="utf-8") as arquivo:
       resultados_boletos = json.load(arquivo)
 
     for i in resultados_boletos:
       disparoTemplateBoleto(i['telefone'], i['aviso'], i['download_url'], i['linha_digitavel'])
-#EnvioMensagem(token, arquivo)
